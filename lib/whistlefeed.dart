@@ -2,14 +2,17 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whistle_feed/whistle_feed_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:whistle_feed/whistlefeed_provider.dart';
+import 'whistle_feed_model.dart';
+import 'whistlefeed_provider.dart';
 
 class Whistle_feed extends StatefulWidget {
+  String ptoken='';
+  int pensize=1;
+  Whistle_feed(this.ptoken,this.pensize);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(this.ptoken,this.pensize);
 
 }
 
@@ -18,6 +21,10 @@ class _MyHomePageState extends State<Whistle_feed> {
   int secondpenciltimer=0;
   int thirdpenciltimer=0;
   int fourthpenciltimer=0;
+
+  String ptoken;
+  int pensize;
+  _MyHomePageState(this.ptoken,this.pensize);
 
   WhistleFeedModel  whistleFeedModel;
 
@@ -45,7 +52,6 @@ class _MyHomePageState extends State<Whistle_feed> {
 
   //////////////////////////////////
 
-  String publisher_token_api="";
   String platform="";
 
 
@@ -65,7 +71,7 @@ class _MyHomePageState extends State<Whistle_feed> {
     startController();
 
     checkdevice();
-    Provider.of<Whistle_Provider>(context, listen: false).get_whistle_Feed_Adds("116378385233oOAaL_4",pencilsize,platform);
+    Provider.of<Whistle_Provider>(context, listen: false).get_whistle_Feed_Adds("${ptoken}",pensize,platform);
 
     super.initState();
   }
@@ -81,20 +87,20 @@ class _MyHomePageState extends State<Whistle_feed> {
   void checkdevice()
   {
     if(Platform.isAndroid)
-      {
-       platform="Android";
-      }
+    {
+      platform="Android";
+    }
     else {
       platform = "IOS";
     }
 
   }
-  
+
   FixedExtentScrollController _controller = FixedExtentScrollController(initialItem: 0);
   FixedExtentScrollController _controller1 = FixedExtentScrollController(initialItem: 0);
   FixedExtentScrollController _controller2 = FixedExtentScrollController(initialItem: 0);
   FixedExtentScrollController _controller3 = FixedExtentScrollController(initialItem: 0);
-   Timer upperSliderTimer;
+  Timer upperSliderTimer;
 
   void startController() async {
     int totalitems = 4; //total length of items
@@ -139,56 +145,56 @@ class _MyHomePageState extends State<Whistle_feed> {
             });
 
             if(_controller1.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic) != null)
-              {
-                Timer(Duration(milliseconds: animationMiliseconds),(){
-                  setState(() {
-                    thirdpencilvisible=false;
-                  });
+            {
+              Timer(Duration(milliseconds: animationMiliseconds),(){
+                setState(() {
+                  thirdpencilvisible=false;
                 });
-                Timer(Duration(milliseconds: 1800),(){
+              });
+              Timer(Duration(milliseconds: 1800),(){
 
 
-                  _controller2.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic);
-                  setState(() {
-                    Timer(Duration(milliseconds: animationMiliseconds),(){
-                      setState(() {
-                        thirdpencilvisible=true;
-                      });
+                _controller2.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic);
+                setState(() {
+                  Timer(Duration(milliseconds: animationMiliseconds),(){
+                    setState(() {
+                      thirdpencilvisible=true;
                     });
                   });
-
-
-                  if(_controller2.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic) != null)
-                    {
-
-                      Timer(Duration(milliseconds: animationMiliseconds),(){
-                        setState(() {
-                          fourthpencilvisible=false;
-                        });
-                      });
-                      Timer(Duration(milliseconds: 1800),(){
-
-                        _controller3.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic);
-                        setState(() {
-                          Timer(Duration(milliseconds: animationMiliseconds),(){
-                            setState(() {
-                              fourthpencilvisible=true;
-                            });
-                          });
-                        });
-                        counter++;
-
-                      });
-
-                    }
-
-
-
-
-
                 });
 
-              }
+
+                if(_controller2.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic) != null)
+                {
+
+                  Timer(Duration(milliseconds: animationMiliseconds),(){
+                    setState(() {
+                      fourthpencilvisible=false;
+                    });
+                  });
+                  Timer(Duration(milliseconds: 1800),(){
+
+                    _controller3.animateToItem(counter, duration: Duration(milliseconds: animationMiliseconds), curve: Curves.easeInCubic);
+                    setState(() {
+                      Timer(Duration(milliseconds: animationMiliseconds),(){
+                        setState(() {
+                          fourthpencilvisible=true;
+                        });
+                      });
+                    });
+                    counter++;
+
+                  });
+
+                }
+
+
+
+
+
+              });
+
+            }
 
 
 
@@ -205,9 +211,9 @@ class _MyHomePageState extends State<Whistle_feed> {
 
   Future get_impressions(String aliasid) async
   {
-    var request = http.Request('POST', Uri.parse('https://hooks.feed.whistle.mobi/i?alias=34&token=${publisher_token_api}&flag=0&auth_url=https://www.buddyloan.com/blog/a-detailed-guide-to-get-a-good-credit-score/'));
+    var request = http.Request('POST', Uri.parse('https://hooks.feed.whistle.mobi/i?alias=34&token=${ptoken}&flag=0&auth_url=https://www.buddyloan.com/blog/a-detailed-guide-to-get-a-good-credit-score/'));
 
-    print("url--"+"https://hooks.feed.whistle.mobi/i?alias=${aliasid}&token=${publisher_token_api}&flag=0&auth_url=https://www.buddyloan.com/blog/a-detailed-guide-to-get-a-good-credit-score/");
+    print("url--"+"https://hooks.feed.whistle.mobi/i?alias=${aliasid}&token=${ptoken}&flag=0&auth_url=https://www.buddyloan.com/blog/a-detailed-guide-to-get-a-good-credit-score/");
 
     http.StreamedResponse response = await request.send();
 
@@ -282,8 +288,8 @@ class _MyHomePageState extends State<Whistle_feed> {
 
 
     if(pencilsize==1)
-      {
-        return  Container(
+    {
+      return  Container(
           height: 82,
           child: Column(
             children: [
@@ -432,7 +438,7 @@ class _MyHomePageState extends State<Whistle_feed> {
               )),
             ],
           ));
-      }
+    }
     else if(pencilsize==2)
     {
       return Container(
@@ -694,195 +700,304 @@ class _MyHomePageState extends State<Whistle_feed> {
       );
     }
     else if(pencilsize==3)
-      {
-        return Container(
-          height: 260,
-          child: Column(
-            children: [
-              Flexible(child: Padding(
-                padding:
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-                    print('fjdsbfjsjdjdsbfj');
-                    print("get index of click  ${firstPencil[indexvalue1].brandname}");
+    {
+      return Container(
+        height: 260,
+        child: Column(
+          children: [
+            Flexible(child: Padding(
+              padding:
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  print('fjdsbfjsjdjdsbfj');
+                  print("get index of click  ${firstPencil[indexvalue1].brandname}");
+
+                  setState(() {
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller,
+                  squeeze: squeeze,
+                  diameterRatio: diameter,
+                  perspective: perspective,
+                  physics: NeverScrollableScrollPhysics(),
+                  onSelectedItemChanged: (i) {
 
                     setState(() {
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
+                      print('indexvalue${i}');
+                      indexvalue1=i;
+                      get_impressions(firstPencil[i].creativeId);
+
 
                     });
 
+
+
                   },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller,
-                    squeeze: squeeze,
-                    diameterRatio: diameter,
-                    perspective: perspective,
-                    physics: NeverScrollableScrollPhysics(),
-                    onSelectedItemChanged: (i) {
-
-                      setState(() {
-                        print('indexvalue${i}');
-                        indexvalue1=i;
-                        get_impressions(firstPencil[i].creativeId);
-
-
-                      });
+                  childDelegate: ListWheelChildLoopingListDelegate(
 
 
 
-                    },
-                    childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
 
+                      firstPencil.length,
 
+                          (index) => GestureDetector(
 
-                      children: List<Widget>.generate(
+                        behavior: HitTestBehavior.translucent,
 
-                        firstPencil.length,
-
-                            (index) => GestureDetector(
-
-                          behavior: HitTestBehavior.translucent,
-
-                          onTap: (){
-                            setState(() {
-                              print('jijkjndknfjbfk');
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                                      color: firstpencilcolor[index]
-                                  ),
-                                  width: MediaQuery.of(context).size.width - 60,
-                                  child: InkWell(
-                                      onTap: (){
-                                        print('clicked');
-                                      },
-                                      child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-                                        child: Center(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Container(
-                                                  child: Flexible(
-                                                    child: Wrap(
-                                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                                      alignment: WrapAlignment.spaceBetween,
-                                                      direction: Axis.horizontal,
-                                                      children: [
-                                                        Text(firstPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold)),
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  behavior: HitTestBehavior.translucent,
-
-                                                  onTap: (){
-                                                    setState(() {
-                                                      print('clicked');
-                                                      Navigator.pushNamed(context, '/Whistlecta_webview');
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black.withOpacity(0.5),
-                                                            blurRadius: 2.0,
-                                                            spreadRadius: 2.0,
-                                                            offset: Offset(-2.2, 3.3)
-                                                        ),
-                                                      ],
-
-                                                    ),
-                                                    child: Center(
-                                                      child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                        child: Text(firstPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
-                                                      ),
-                                                    ),
-
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                        ),
-                                      )
-
-
-
-                                  ),
-                                ),
-
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Padding(padding: const EdgeInsets.only(right: 25),
-                                    child: AnimatedOpacity(
-                                      opacity: firstpencilvisible ?1 :0,
-                                      duration:Duration(seconds: 1),
-                                      child: firstpencilvisible==true?Text(firstPencil[index].brandname,):Container(height: 0,),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-              SizedBox(height: 10,),
-              Flexible(child: Padding(
-                padding: const
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      print('checkclickingindex${secondPencil[indexvalue2].brandname}');
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
-
-                    });
-                  },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller1,
-                    squeeze: squeeze,
-                    diameterRatio: diameter,
-                    perspective: perspective,
-                    onSelectedItemChanged: (i){
-
-                      setState(() {
-                        indexvalue2=i;
-                        get_impressions(secondPencil[i].creativeId);
-
-                      });
-                    },
-
-                    renderChildrenOutsideViewport: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        secondPencil.length,
-                            (index) => Container(
+                        onTap: (){
+                          setState(() {
+                            print('jijkjndknfjbfk');
+                          });
+                        },
+                        child: Container(
                           child: Column(
                             children: [
                               Container(
                                 height: 60,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                                    color: secondpencilcolor[index]
+                                    color: firstpencilcolor[index]
+                                ),
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: InkWell(
+                                    onTap: (){
+                                      print('clicked');
+                                    },
+                                    child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Center(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                child: Flexible(
+                                                  child: Wrap(
+                                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                                    alignment: WrapAlignment.spaceBetween,
+                                                    direction: Axis.horizontal,
+                                                    children: [
+                                                      Text(firstPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold)),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                behavior: HitTestBehavior.translucent,
+
+                                                onTap: (){
+                                                  setState(() {
+                                                    print('clicked');
+                                                    Navigator.pushNamed(context, '/Whistlecta_webview');
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black.withOpacity(0.5),
+                                                          blurRadius: 2.0,
+                                                          spreadRadius: 2.0,
+                                                          offset: Offset(-2.2, 3.3)
+                                                      ),
+                                                    ],
+
+                                                  ),
+                                                  child: Center(
+                                                    child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
+                                                      child: Text(firstPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                                    ),
+                                                  ),
+
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                      ),
+                                    )
+
+
+
+                                ),
+                              ),
+
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(padding: const EdgeInsets.only(right: 25),
+                                  child: AnimatedOpacity(
+                                    opacity: firstpencilvisible ?1 :0,
+                                    duration:Duration(seconds: 1),
+                                    child: firstpencilvisible==true?Text(firstPencil[index].brandname,):Container(height: 0,),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )),
+            SizedBox(height: 10,),
+            Flexible(child: Padding(
+              padding: const
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    print('checkclickingindex${secondPencil[indexvalue2].brandname}');
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller1,
+                  squeeze: squeeze,
+                  diameterRatio: diameter,
+                  perspective: perspective,
+                  onSelectedItemChanged: (i){
+
+                    setState(() {
+                      indexvalue2=i;
+                      get_impressions(secondPencil[i].creativeId);
+
+                    });
+                  },
+
+                  renderChildrenOutsideViewport: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
+                      secondPencil.length,
+                          (index) => Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                                  color: secondpencilcolor[index]
+                              ),
+                              width: MediaQuery.of(context).size.width - 60,
+                              child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+                                child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Flexible(
+                                            child: Wrap(
+                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              alignment: WrapAlignment.spaceBetween,
+                                              direction: Axis.horizontal,
+                                              children: [
+                                                Text(secondPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: (){},
+                                          child:  Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black.withOpacity(0.5),
+                                                    blurRadius: 2.0,
+                                                    spreadRadius: 2.0,
+                                                    offset: Offset(-2.2, 3.3)
+                                                ),
+                                              ],
+
+                                            ),
+                                            child: Center(
+                                              child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
+                                                child: Text(secondPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                              ),
+                                            ),
+
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ),
+
+                            Align(alignment: Alignment.bottomRight,
+                              child: Padding(padding: const EdgeInsets.only(right: 25),
+                                child: AnimatedOpacity(
+                                  opacity: secondpencilvisible ?1 :0,
+                                  duration:Duration(seconds: 1),
+                                  child: secondpencilvisible==true?Text(secondPencil[index].brandname,):Container(height: 0,),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )),
+            SizedBox(height: 10,),
+            Flexible(child: Padding(
+              padding: const
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    print("get index value of pencil3${thirdpencil[indexvalue3].brandname}");
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller2,
+                  squeeze: squeeze,
+                  diameterRatio:diameter,
+                  perspective: perspective,
+                  onSelectedItemChanged: (i){
+                    setState(() {
+                      indexvalue3=i;
+                      get_impressions(thirdpencil[i].creativeId);
+
+                    });
+
+                  },
+
+                  renderChildrenOutsideViewport: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
+                      thirdpencil.length,
+                          (index) => Container(
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: (){},
+                              child:  Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                                    color: thirdpencilcolor[index]
                                 ),
                                 width: MediaQuery.of(context).size.width - 60,
                                 child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
@@ -897,14 +1012,14 @@ class _MyHomePageState extends State<Whistle_feed> {
                                                 alignment: WrapAlignment.spaceBetween,
                                                 direction: Axis.horizontal,
                                                 children: [
-                                                  Text(secondPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                                                  Text(thirdpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
                                                 ],
                                               ),
                                             ),
                                           ),
                                           GestureDetector(
                                             onTap: (){},
-                                            child:  Container(
+                                            child: Container(
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -921,7 +1036,7 @@ class _MyHomePageState extends State<Whistle_feed> {
                                               ),
                                               child: Center(
                                                 child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                  child: Text(secondPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                                  child: Text(thirdpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
                                                 ),
                                               ),
 
@@ -932,326 +1047,327 @@ class _MyHomePageState extends State<Whistle_feed> {
                                   ),
                                 ),
                               ),
-
-                              Align(alignment: Alignment.bottomRight,
-                                child: Padding(padding: const EdgeInsets.only(right: 25),
-                                  child: AnimatedOpacity(
-                                    opacity: secondpencilvisible ?1 :0,
-                                    duration:Duration(seconds: 1),
-                                    child: secondpencilvisible==true?Text(secondPencil[index].brandname,):Container(height: 0,),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-              SizedBox(height: 10,),
-              Flexible(child: Padding(
-                padding: const
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      print("get index value of pencil3${thirdpencil[indexvalue3].brandname}");
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
-
-                    });
-                  },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller2,
-                    squeeze: squeeze,
-                    diameterRatio:diameter,
-                    perspective: perspective,
-                    onSelectedItemChanged: (i){
-                      setState(() {
-                        indexvalue3=i;
-                        get_impressions(thirdpencil[i].creativeId);
-
-                      });
-
-                    },
-
-                    renderChildrenOutsideViewport: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        thirdpencil.length,
-                            (index) => Container(
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: (){},
-                                child:  Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                                      color: thirdpencilcolor[index]
-                                  ),
-                                  width: MediaQuery.of(context).size.width - 60,
-                                  child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              child: Flexible(
-                                                child: Wrap(
-                                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                                  alignment: WrapAlignment.spaceBetween,
-                                                  direction: Axis.horizontal,
-                                                  children: [
-                                                    Text(thirdpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: (){},
-                                              child: Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.black.withOpacity(0.5),
-                                                        blurRadius: 2.0,
-                                                        spreadRadius: 2.0,
-                                                        offset: Offset(-2.2, 3.3)
-                                                    ),
-                                                  ],
-
-                                                ),
-                                                child: Center(
-                                                  child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                    child: Text(thirdpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
-                                                  ),
-                                                ),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                    ),
-                                  ),
+                            ),
+                            Align(alignment: Alignment.bottomRight,
+                              child: Padding(padding: const EdgeInsets.only(right: 25),
+                                child: AnimatedOpacity(
+                                  opacity: thirdpencilvisible ?1 :0,
+                                  duration:Duration(seconds: 1),
+                                  child: thirdpencilvisible==true?Text(thirdpencil[index].brandname,):Container(height: 0,),
                                 ),
                               ),
-                              Align(alignment: Alignment.bottomRight,
-                                child: Padding(padding: const EdgeInsets.only(right: 25),
-                                  child: AnimatedOpacity(
-                                    opacity: thirdpencilvisible ?1 :0,
-                                    duration:Duration(seconds: 1),
-                                    child: thirdpencilvisible==true?Text(thirdpencil[index].brandname,):Container(height: 0,),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              )),
-            ],
-          ),
-        );
-      }
+              ),
+            )),
+          ],
+        ),
+      );
+    }
     else if(pencilsize==4)
-      {
-        return Container(
-          height: 360,
-          child: Column(
-            children: [
-              Flexible(child: Padding(
-                padding:
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-                    print("get index of click  ${firstPencil[indexvalue1].brandname}");
+    {
+      return Container(
+        height: 360,
+        child: Column(
+          children: [
+            Flexible(child: Padding(
+              padding:
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  print("get index of click  ${firstPencil[indexvalue1].brandname}");
+
+                  setState(() {
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller,
+                  squeeze: squeeze,
+                  diameterRatio: diameter,
+                  perspective: perspective,
+                  physics: NeverScrollableScrollPhysics(),
+                  onSelectedItemChanged: (i) {
 
                     setState(() {
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
+                      print('indexvalue${i}');
+                      indexvalue1=i;
+                      get_impressions(firstPencil[i].creativeId);
+                      print("print the  cta${firstPencil[i].tracker}");
 
                     });
 
+
+
                   },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller,
-                    squeeze: squeeze,
-                    diameterRatio: diameter,
-                    perspective: perspective,
-                    physics: NeverScrollableScrollPhysics(),
-                    onSelectedItemChanged: (i) {
-
-                     setState(() {
-                       print('indexvalue${i}');
-                       indexvalue1=i;
-                       get_impressions(firstPencil[i].creativeId);
-                       print("print the  cta${firstPencil[i].tracker}");
-
-                     });
+                  childDelegate: ListWheelChildLoopingListDelegate(
 
 
 
-                    },
-                    childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
 
+                      firstPencil.length,
 
+                          (index) => GestureDetector(
 
-                      children: List<Widget>.generate(
+                        behavior: HitTestBehavior.translucent,
 
-                        firstPencil.length,
-
-                            (index) => GestureDetector(
-
-                          behavior: HitTestBehavior.translucent,
-
-                          onTap: (){
-                            setState(() {
-                              print('jijkjndknfjbfk');
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                                      color: firstpencilcolor[index]
-                                  ),
-                                  width: MediaQuery.of(context).size.width - 60,
-                                  child: InkWell(
-                                      onTap: (){
-                                        print('clicked');
-                                      },
-                                      child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-                                        child: Center(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Container(
-                                                  child: Flexible(
-                                                    child: Wrap(
-                                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                                      alignment: WrapAlignment.spaceBetween,
-                                                      direction: Axis.horizontal,
-                                                      children: [
-                                                        Text(firstPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold)),
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  behavior: HitTestBehavior.translucent,
-
-                                                  onTap: (){
-                                                    setState(() {
-                                                      print('clicked');
-                                                      Navigator.pushNamed(context, '/Whistlecta_webview');
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black.withOpacity(0.5),
-                                                            blurRadius: 2.0,
-                                                            spreadRadius: 2.0,
-                                                            offset: Offset(-2.2, 3.3)
-                                                        ),
-                                                      ],
-
-                                                    ),
-                                                    child: Center(
-                                                      child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                        child: Text(firstPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
-                                                      ),
-                                                    ),
-
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                        ),
-                                      )
-
-
-
-                                  ),
-                                ),
-
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Padding(padding: const EdgeInsets.only(right: 25),
-                                    child: AnimatedOpacity(
-                                      opacity: firstpencilvisible ?1 :0,
-                                      duration:Duration(seconds: 1),
-                                      child: firstpencilvisible==true?Text(firstPencil[index].brandname,):Container(height: 0,),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-              SizedBox(height: 10,),
-              Flexible(child: Padding(
-                padding: const
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      print('checkclickingindex${secondPencil[indexvalue2].brandname}');
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
-
-                    });
-                  },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller1,
-                    squeeze: squeeze,
-                    diameterRatio: diameter,
-                    perspective: perspective,
-                    onSelectedItemChanged: (i){
-
-                     setState(() {
-                       indexvalue2=i;
-                       get_impressions(secondPencil[i].creativeId);
-
-                     });
-                    },
-
-                    renderChildrenOutsideViewport: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        secondPencil.length,
-                            (index) => Container(
+                        onTap: (){
+                          setState(() {
+                            print('jijkjndknfjbfk');
+                          });
+                        },
+                        child: Container(
                           child: Column(
                             children: [
                               Container(
                                 height: 60,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                                    color: secondpencilcolor[index]
+                                    color: firstpencilcolor[index]
+                                ),
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: InkWell(
+                                    onTap: (){
+                                      print('clicked');
+                                    },
+                                    child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Center(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                child: Flexible(
+                                                  child: Wrap(
+                                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                                    alignment: WrapAlignment.spaceBetween,
+                                                    direction: Axis.horizontal,
+                                                    children: [
+                                                      Text(firstPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold)),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                behavior: HitTestBehavior.translucent,
+
+                                                onTap: (){
+                                                  setState(() {
+                                                    print('clicked');
+                                                    Navigator.pushNamed(context, '/Whistlecta_webview');
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black.withOpacity(0.5),
+                                                          blurRadius: 2.0,
+                                                          spreadRadius: 2.0,
+                                                          offset: Offset(-2.2, 3.3)
+                                                      ),
+                                                    ],
+
+                                                  ),
+                                                  child: Center(
+                                                    child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
+                                                      child: Text(firstPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                                    ),
+                                                  ),
+
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                      ),
+                                    )
+
+
+
+                                ),
+                              ),
+
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(padding: const EdgeInsets.only(right: 25),
+                                  child: AnimatedOpacity(
+                                    opacity: firstpencilvisible ?1 :0,
+                                    duration:Duration(seconds: 1),
+                                    child: firstpencilvisible==true?Text(firstPencil[index].brandname,):Container(height: 0,),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )),
+            SizedBox(height: 10,),
+            Flexible(child: Padding(
+              padding: const
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    print('checkclickingindex${secondPencil[indexvalue2].brandname}');
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller1,
+                  squeeze: squeeze,
+                  diameterRatio: diameter,
+                  perspective: perspective,
+                  onSelectedItemChanged: (i){
+
+                    setState(() {
+                      indexvalue2=i;
+                      get_impressions(secondPencil[i].creativeId);
+
+                    });
+                  },
+
+                  renderChildrenOutsideViewport: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
+                      secondPencil.length,
+                          (index) => Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                                  color: secondpencilcolor[index]
+                              ),
+                              width: MediaQuery.of(context).size.width - 60,
+                              child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+                                child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Flexible(
+                                            child: Wrap(
+                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              alignment: WrapAlignment.spaceBetween,
+                                              direction: Axis.horizontal,
+                                              children: [
+                                                Text(secondPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: (){},
+                                          child:  Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black.withOpacity(0.5),
+                                                    blurRadius: 2.0,
+                                                    spreadRadius: 2.0,
+                                                    offset: Offset(-2.2, 3.3)
+                                                ),
+                                              ],
+
+                                            ),
+                                            child: Center(
+                                              child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
+                                                child: Text(secondPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                              ),
+                                            ),
+
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ),
+
+                            Align(alignment: Alignment.bottomRight,
+                              child: Padding(padding: const EdgeInsets.only(right: 25),
+                                child: AnimatedOpacity(
+                                  opacity: secondpencilvisible ?1 :0,
+                                  duration:Duration(seconds: 1),
+                                  child: secondpencilvisible==true?Text(secondPencil[index].brandname,):Container(height: 0,),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )),
+            SizedBox(height: 10,),
+            Flexible(child: Padding(
+              padding: const
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    print("get index value of pencil3${thirdpencil[indexvalue3].brandname}");
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+
+                  });
+                },
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller2,
+                  squeeze: squeeze,
+                  diameterRatio:diameter,
+                  perspective: perspective,
+                  onSelectedItemChanged: (i){
+                    setState(() {
+                      indexvalue3=i;
+                      get_impressions(thirdpencil[i].creativeId);
+
+
+                    });
+
+                  },
+
+                  renderChildrenOutsideViewport: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
+                      thirdpencil.length,
+                          (index) => Container(
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: (){},
+                              child:  Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                                    color: thirdpencilcolor[index]
                                 ),
                                 width: MediaQuery.of(context).size.width - 60,
                                 child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
@@ -1266,14 +1382,14 @@ class _MyHomePageState extends State<Whistle_feed> {
                                                 alignment: WrapAlignment.spaceBetween,
                                                 direction: Axis.horizontal,
                                                 children: [
-                                                  Text(secondPencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                                                  Text(thirdpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
                                                 ],
                                               ),
                                             ),
                                           ),
                                           GestureDetector(
                                             onTap: (){},
-                                            child:  Container(
+                                            child: Container(
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -1290,7 +1406,7 @@ class _MyHomePageState extends State<Whistle_feed> {
                                               ),
                                               child: Center(
                                                 child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                  child: Text(secondPencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                                  child: Text(thirdpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
                                                 ),
                                               ),
 
@@ -1301,255 +1417,144 @@ class _MyHomePageState extends State<Whistle_feed> {
                                   ),
                                 ),
                               ),
-
-                              Align(alignment: Alignment.bottomRight,
-                                child: Padding(padding: const EdgeInsets.only(right: 25),
-                                  child: AnimatedOpacity(
-                                    opacity: secondpencilvisible ?1 :0,
-                                    duration:Duration(seconds: 1),
-                                    child: secondpencilvisible==true?Text(secondPencil[index].brandname,):Container(height: 0,),
-                                  ),
+                            ),
+                            Align(alignment: Alignment.bottomRight,
+                              child: Padding(padding: const EdgeInsets.only(right: 25),
+                                child: AnimatedOpacity(
+                                  opacity: thirdpencilvisible ?1 :0,
+                                  duration:Duration(seconds: 1),
+                                  child: thirdpencilvisible==true?Text(thirdpencil[index].brandname,):Container(height: 0,),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              )),
-              SizedBox(height: 10,),
-              Flexible(child: Padding(
-                padding: const
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
+              ),
+            )),
+            SizedBox(height: 10,),
+            Flexible(child: Padding(
+              padding: const
+              EdgeInsets.only(left: 10, right: 5),
+              child: GestureDetector(
+                onTap: (){
+
+                  setState(() {
+
+                    print("get index value of pencil4${fourthpencil[indexvalue4].brandname}");
+                    Navigator.pushNamed(context, '/Whistlecta_webview');
+                  });
+                },
+                child:  ListWheelScrollView.useDelegate(
+                  itemExtent: itemextent,
+                  controller: _controller3,
+                  squeeze: squeeze,
+                  diameterRatio: diameter,
+                  perspective: perspective,
+                  onSelectedItemChanged: (i){
                     setState(() {
-                      print("get index value of pencil3${thirdpencil[indexvalue3].brandname}");
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
+                      indexvalue4=i;
+                      get_impressions(fourthpencil[i].creativeId);
 
                     });
                   },
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller2,
-                    squeeze: squeeze,
-                    diameterRatio:diameter,
-                    perspective: perspective,
-                    onSelectedItemChanged: (i){
-                      setState(() {
-                        indexvalue3=i;
-                        get_impressions(thirdpencil[i].creativeId);
 
-
-                      });
-
-                    },
-
-                    renderChildrenOutsideViewport: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        thirdpencil.length,
-                            (index) => Container(
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: (){},
-                                child:  Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                                      color: thirdpencilcolor[index]
-                                  ),
-                                  width: MediaQuery.of(context).size.width - 60,
-                                  child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              child: Flexible(
-                                                child: Wrap(
-                                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                                  alignment: WrapAlignment.spaceBetween,
-                                                  direction: Axis.horizontal,
-                                                  children: [
-                                                    Text(thirdpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
-                                                  ],
-                                                ),
+                  renderChildrenOutsideViewport: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                    children: List<Widget>.generate(
+                      fourthpencil.length,
+                          (index) => Container(
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: (){},
+                              child:  Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                                    color: fourthpencilcolor[index]
+                                ),
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+                                  child: Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            child: Flexible(
+                                              child: Wrap(
+                                                crossAxisAlignment: WrapCrossAlignment.center,
+                                                alignment: WrapAlignment.spaceBetween,
+                                                direction: Axis.horizontal,
+                                                children: [
+                                                  Text(fourthpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
+                                                ],
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: (){},
-                                              child: Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.black.withOpacity(0.5),
-                                                        blurRadius: 2.0,
-                                                        spreadRadius: 2.0,
-                                                        offset: Offset(-2.2, 3.3)
-                                                    ),
-                                                  ],
-
-                                                ),
-                                                child: Center(
-                                                  child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                    child: Text(thirdpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){},
+                                            child:    Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.black.withOpacity(0.5),
+                                                      blurRadius: 2.0,
+                                                      spreadRadius: 2.0,
+                                                      offset: Offset(-2.2, 3.3)
                                                   ),
-                                                ),
+                                                ],
 
                                               ),
+                                              child: Center(
+                                                child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
+                                                  child: Text(fourthpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
+                                                ),
+                                              ),
+
                                             ),
-                                          ],
-                                        )
-                                    ),
+                                          ),
+
+                                        ],
+                                      )
                                   ),
                                 ),
                               ),
-                              Align(alignment: Alignment.bottomRight,
-                                child: Padding(padding: const EdgeInsets.only(right: 25),
-                                  child: AnimatedOpacity(
-                                    opacity: thirdpencilvisible ?1 :0,
-                                    duration:Duration(seconds: 1),
-                                    child: thirdpencilvisible==true?Text(thirdpencil[index].brandname,):Container(height: 0,),
-                                  ),
+                            ),
+                            Align(alignment: Alignment.bottomRight,
+                              child: Padding(padding: const EdgeInsets.only(right: 25),
+                                child:  AnimatedOpacity(
+                                  opacity: fourthpencilvisible ?1 :0,
+                                  duration:Duration(seconds: 1),
+                                  child: fourthpencilvisible==true?Text(fourthpencil[index].brandname,):Container(height: 0,),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              )),
-              SizedBox(height: 10,),
-              Flexible(child: Padding(
-                padding: const
-                EdgeInsets.only(left: 10, right: 5),
-                child: GestureDetector(
-                  onTap: (){
-
-                    setState(() {
-
-                      print("get index value of pencil4${fourthpencil[indexvalue4].brandname}");
-                      Navigator.pushNamed(context, '/Whistlecta_webview');
-                    });
-                  },
-                  child:  ListWheelScrollView.useDelegate(
-                    itemExtent: itemextent,
-                    controller: _controller3,
-                    squeeze: squeeze,
-                    diameterRatio: diameter,
-                    perspective: perspective,
-                    onSelectedItemChanged: (i){
-                      setState(() {
-                        indexvalue4=i;
-                        get_impressions(fourthpencil[i].creativeId);
-
-                      });
-                    },
-
-                    renderChildrenOutsideViewport: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        fourthpencil.length,
-                            (index) => Container(
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: (){},
-                                child:  Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                                      color: fourthpencilcolor[index]
-                                  ),
-                                  width: MediaQuery.of(context).size.width - 60,
-                                  child: Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              child: Flexible(
-                                                child: Wrap(
-                                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                                  alignment: WrapAlignment.spaceBetween,
-                                                  direction: Axis.horizontal,
-                                                  children: [
-                                                    Text(fourthpencil[index].headline,style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: (){},
-                                              child:    Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.black.withOpacity(0.5),
-                                                        blurRadius: 2.0,
-                                                        spreadRadius: 2.0,
-                                                        offset: Offset(-2.2, 3.3)
-                                                    ),
-                                                  ],
-
-                                                ),
-                                                child: Center(
-                                                  child: Padding(padding: EdgeInsets.only(left: 20,right: 20),
-                                                    child: Text(fourthpencil[index].cTA,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 15),),
-                                                  ),
-                                                ),
-
-                                              ),
-                                            ),
-
-                                          ],
-                                        )
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Align(alignment: Alignment.bottomRight,
-                                child: Padding(padding: const EdgeInsets.only(right: 25),
-                                  child:  AnimatedOpacity(
-                                    opacity: fourthpencilvisible ?1 :0,
-                                    duration:Duration(seconds: 1),
-                                    child: fourthpencilvisible==true?Text(fourthpencil[index].brandname,):Container(height: 0,),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-            ],
-          ),
-        );
-      }
+              ),
+            )),
+          ],
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
 
     whistleFeedModel =Provider.of<Whistle_Provider>(context, listen: true).whistleFeedModel;
-    publisher_token_api=Provider.of<Whistle_Provider>(context,listen:true).publisher_token_api;
 
 
     return Scaffold(

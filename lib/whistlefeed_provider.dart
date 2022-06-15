@@ -14,11 +14,8 @@ class Whistle_Provider extends ChangeNotifier {
   List<Campaindata> thirdpencil;
   List<Campaindata> fourthpencil;
 
-  String publisher_token_api="";
-
 
   Future<WhistleFeedModel> get_whistle_Feed_Adds(String publisher_token, int size,String platform) async {
-    publisher_token_api=publisher_token;
     var headers = {
       'Content-Type': 'text/plain',
       'Cookie': 'ci_session=ept5brqr1v9smenbgkptqu19vkggme9m'
