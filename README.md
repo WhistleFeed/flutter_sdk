@@ -39,7 +39,7 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 ## case 1 : if you want 1 cube Ui initialization will be
 
-#  ShowWhistleAdds('21701655717485nYBzur_3052',1,false,adShowListener),
+#  Whistle_adds( pencil_size: 1,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
 
@@ -48,14 +48,14 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 ## case 2: if you want 2 cubes Ui initialization will be
 
-#  ShowWhistleAdds('21701655717485nYBzur_3052',2,false,adShowListener),
+#  Whistle_adds( pencil_size: 2,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
 
 ![2 cube adds](https://github.com/prakashvalueleaf/whistle_feed_staging/blob/master/pencil2.png)
 
 ## case 3: if you want 3 cubes Ui initialization will be
-#  ShowWhistleAdds('21701655717485nYBzur_3052',3,false,adShowListener),
+#  Whistle_adds( pencil_size: 3,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
 
@@ -63,7 +63,7 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 
 ## case 4: if you want 4 cubes Ui initialization will be
-#  ShowWhistleAdds('21701655717485nYBzur_3052',4,false,adShowListener),
+#  Whistle_adds( pencil_size: 4,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
 
