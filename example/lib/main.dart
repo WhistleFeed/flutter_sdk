@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whistle_feed/listeners/MyAdShowListener.dart';
 import 'package:whistle_feed/whistle_adds.dart';
-void main() {
-  runApp(MyApp());
-}
-
+void main() {runApp(MyApp());}
 class MyApp extends StatefulWidget{
 
   _myappstate createState()=> _myappstate();
@@ -25,12 +22,11 @@ class _myappstate extends State<MyApp>{
               color:Colors.black,
               child:
               Whistle_adds(
-                pencil_size: 1,
+                pencil_size: 4,
                 publisher_token: '116378385233oOAaL_3052',
                 adShowListener: adShowListener,
                 packagename: 'com.buddyloan.vls',
-              )
-              , /////live////
+              ), /////live////
             )
           ],
         ),
