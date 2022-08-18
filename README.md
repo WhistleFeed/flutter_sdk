@@ -1,4 +1,4 @@
-# whistle_feed_staging
+# whistle_feed
 
 Whistle_feed Ads plugin for Flutter Applications. This plugin is able to display Whistle_feed Ads.
 
@@ -36,14 +36,12 @@ Note: If pixel error is encountered kindly check sufficient height is provided w
 1 pencil = 1 cube , Maximum cube will be 4
 Note :- required fields from developer : publisher token and pencil size (minimum size is 1 and maximum size is 4)
 
-
 ## case 1 : if you want 1 cube Ui initialization will be
 
 #  Whistle_adds( pencil_size: 1,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
-
-![1 cube adds](https://github.com/prakashvalueleaf/whistle_feed_staging/blob/master/pencil1.png)
+![1 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed1pencil.png)
 
 
 ## case 2: if you want 2 cubes Ui initialization will be
@@ -51,27 +49,21 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 #  Whistle_adds( pencil_size: 2,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
-
-![2 cube adds](https://github.com/prakashvalueleaf/whistle_feed_staging/blob/master/pencil2.png)
+![2 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed2pencil.png)
 
 ## case 3: if you want 3 cubes Ui initialization will be
 #  Whistle_adds( pencil_size: 3,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
-
-![3 cube adds](https://github.com/prakashvalueleaf/whistle_feed_staging/blob/master/pencil3.png)
+![3 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed3pencil.png)
 
 
 ## case 4: if you want 4 cubes Ui initialization will be
 #  Whistle_adds( pencil_size: 4,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
 
 
-
-![4 cube adds](https://github.com/prakashvalueleaf/whistle_feed_staging/blob/master/pencil4.png)
+![4 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed4pencil.png)
 
 # Github repository for reference
 
-[github_repository](https://github.com/prakashvalueleaf/whistle_feed_staging)
-
-
-
+[github_repository](https://github.com/prakashvalueleaf/whistle_feed)

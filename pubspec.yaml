@@ -1,7 +1,7 @@
 name: whistle_feed
 description: whistle adds plugin.
 version: 0.0.1
-homepage: https://github.com/prakashvalueleaf/whistle_feed
+homepage: https://github.com/WhistleFeed/fluttersdk
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
