@@ -22,7 +22,7 @@ class _myappstate extends State<MyApp>{
               color:Colors.black,
               child:
               Whistle_adds(
-                pencil_size: 4,
+                pencil_size: 1,
                 publisher_token: '116378385233oOAaL_3052',
                 adShowListener: adShowListener,
                 packagename: 'com.buddyloan.vls',
