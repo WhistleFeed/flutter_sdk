@@ -1,7 +1,7 @@
 class WhistleFeedModel {
-  String status='';
-  String message='';
-  Data data;
+  String? status='';
+  String? message='';
+  Data? data;
 
   WhistleFeedModel({this.status, this.message, this.data});
 
@@ -16,15 +16,15 @@ class WhistleFeedModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  List<Campaindata> campgainlist;
-  int uiLimit;
+  List<Campaindata>? campgainlist;
+  int? uiLimit;
 
   Data({this.campgainlist, this.uiLimit});
 
@@ -32,7 +32,7 @@ class Data {
     if (json['data'] != null) {
       campgainlist = <Campaindata>[];
       json['data'].forEach((v) {
-        campgainlist.add(new Campaindata.fromJson(v));
+        campgainlist!.add(new Campaindata.fromJson(v));
       });
     }
     uiLimit = json['ui_limit'];
@@ -41,7 +41,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.campgainlist != null) {
-      data['data'] = this.campgainlist.map((v) => v.toJson()).toList();
+      data['data'] = this.campgainlist!.map((v) => v.toJson()).toList();
     }
     data['ui_limit'] = this.uiLimit;
     return data;
@@ -49,14 +49,14 @@ class Data {
 }
 
 class Campaindata {
-  String campaignId;
-  String creativeId;
-  String headline="";
-  String tracker;
-  String brandname;
-  String uniqueClickId;
-  String cTA;
-  int count=0;
+  String? campaignId;
+  String? creativeId;
+  String? headline="";
+  String? tracker;
+  String? brandname;
+  String? uniqueClickId;
+  String? cTA;
+  int? count;
 
   Campaindata(
       {this.campaignId,

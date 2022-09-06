@@ -1,2 +1,2 @@
 import 'adshowlistener.dart';
-AdShowListener adShowListener;
+AdShowListener? adShowListener;

@@ -13,7 +13,7 @@ This plugin depends on other plugins like Provider , http , package_info and url
 This Dart package will utilize the plugin, **whistle_feed**, so to quickly and easily implement ads into a Flutter app.
 
 # Sign Up and Get Your Publisher token here
-[!website link](https://publisher.whistle.mobi/)
+[website link](https://publisher.whistle.mobi/)
 
 Note:- Publisher token is required to serve the ads.
 
@@ -38,7 +38,7 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 ## case 1 : if you want 1 cube Ui initialization will be
 
-#  Whistle_adds( pencil_size: 1,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
+#  Whistle_adds( pencil_size: 1,publisher_token: '***publisher_token***'),
 
 
 ![1 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed1pencil.png)
@@ -46,20 +46,20 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 ## case 2: if you want 2 cubes Ui initialization will be
 
-#  Whistle_adds( pencil_size: 2,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
+#  Whistle_adds( pencil_size: 2,publisher_token: '***publisher_token***'),
 
 
 ![2 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed2pencil.png)
 
 ## case 3: if you want 3 cubes Ui initialization will be
-#  Whistle_adds( pencil_size: 3,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
+#  Whistle_adds( pencil_size: 3,publisher_token: '***publisher_token***'),
 
 
 ![3 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed3pencil.png)
 
 
 ## case 4: if you want 4 cubes Ui initialization will be
-#  Whistle_adds( pencil_size: 4,publisher_token: '116378385233oOAaL_3052',packagename: 'com.buddyloan.vls',),
+#  Whistle_adds( pencil_size: 4,publisher_token: '***publisher_token***'),
 
 
 ![4 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed4pencil.png)

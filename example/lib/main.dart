@@ -19,13 +19,11 @@ class _myappstate extends State<MyApp>{
           children: [
             SizedBox(height: 100,),
             Container(
-              color:Colors.black,
               child:
               Whistle_adds(
-                pencil_size: 3,
-                publisher_token: '116378385233oOAaL_3052',
+                pencil_size: 1, // number of Ad cubes
+                publisher_token: 'YOUR_PUBLISHER_TOKEN',
                 adShowListener: adShowListener,
-                packagename: 'com.buddyloan.vls',
               ), /////live////
             )
           ],
