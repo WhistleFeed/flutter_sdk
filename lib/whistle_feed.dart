@@ -18,7 +18,7 @@ class WhistleFeed extends StatefulWidget {
   WhistleFeed({this.publishertoken, this.pencilsize, this.adShowListener});
 
   _WhistleFeedState createState() => _WhistleFeedState(
-      this.publishertoken, this.pencilsize, this.adShowListener);
+      this.publishertoken, this.pencilsize, this.adShowListener);//passing the paramerters to child class
 }
 
 class _WhistleFeedState extends State<WhistleFeed> {
@@ -29,7 +29,6 @@ class _WhistleFeedState extends State<WhistleFeed> {
   _WhistleFeedState(this.ptoken, this.pensize, this.adShowListener);
   bool shrinkadds = true; // boolean value to shrink adds
   late WhistleFeedModel whistleFeedModel; //data of objects of adds list
-  var scripttags;
 
   @override
   void initState() {
@@ -55,11 +54,11 @@ class _WhistleFeedState extends State<WhistleFeed> {
         '''{"os_name":"$platform","publisher_token":"$pubtoken","api_called":1,"size":$size,"parentUrl":"$pkgname"}''';
     request.headers.addAll(headers);
     print('print the request${request.body}');
-    http.StreamedResponse streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
+    http.StreamedResponse streamedResponse = await request.send();// request
+    var response = await http.Response.fromStream(streamedResponse); //response
 
     if (streamedResponse.statusCode == 200) {
-      //json response
+      //json decode
       final item = json.decode(response.body);
       print(item);
 
@@ -67,6 +66,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
       print(whistleFeedModel.message);
       if (whistleFeedModel.message == "verified") {
+        // everything is verifird
         print('verified');
         if (whistleFeedModel.data!.campgainlist!.isEmpty) {
           shrinkadds = true; //shrinking adds if no adds are there.
@@ -77,6 +77,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
         }
       } else {
         if (whistleFeedModel.message == 'user not found') {
+
           adShowListener!.onAdShowFailure('Add your Publisher Token');
           shrinkadds = true;
           print('Add your Publisher Token');
@@ -114,7 +115,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
         Container()
         : Container(
             height: pensize == 1
-                ? 125 //height basis on pencils
+                ? 125
                 : pensize == 2
                     ? 230
                     : pensize == 3
@@ -126,8 +127,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
               initialData: InAppWebViewInitialData(
                   data: """<!DOCTYPE html> <html lang="en"> <body> 
             <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script>
-             </body> </html>"""), //scripttagsfor adds
-
+             </body> </html>"""), //script tags for load the  adds
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
                   useOnDownloadStart: true,
