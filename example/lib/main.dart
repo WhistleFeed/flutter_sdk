@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whistle_feed/listeners/MyAdShowListener.dart';
-import 'package:whistle_feed/WhistleFeed.dart';
+import 'package:whistle_feed/listeners/myadshow_listener.dart';
+import 'package:whistle_feed/whistle_feed.dart';
 void main() {runApp(MyApp());}
 class MyApp extends StatefulWidget{
 

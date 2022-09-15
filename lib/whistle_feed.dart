@@ -5,8 +5,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-import 'listeners/MyAdShowListener.dart';
-import 'model/WhistleFeedModel.dart';
+import 'listeners/myadshow_listener.dart';
+import 'model/whistle_feedmodel.dart';
 
 class WhistleFeed extends StatefulWidget{
  final String? publishertoken; //publisher token variable set the token which provided through publisher website
