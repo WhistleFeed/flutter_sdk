@@ -1,17 +1,25 @@
 class AdShowListener {
   String onAdShowFailure(String errorMsg) {
-    return errorMsg; // adds failure
+    return errorMsg;
+
+    /// adds failure
   }
 
   String onAdShowStart(String messege) {
-    return messege; // adds start
+    return messege;
+
+    /// adds start
   }
 
   String onAdShowClick(String messege) {
-    return messege; //adds click
+    return messege;
+
+    ///adds click
   }
 
   String onAdShowComplete(String messege) {
-    return messege; // adds complete
+    return messege;
+
+    /// adds complete
   }
 }

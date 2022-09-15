@@ -9,45 +9,64 @@ import 'listeners/myadshow_listener.dart';
 import 'model/whistle_feedmodel.dart';
 
 class WhistleFeed extends StatefulWidget {
-  final String?
-      publishertoken; //publisher token variable set the token which provided through publisher website
-  final int?
-      pencilsize; //select desired no of pencils to show minimum is 1 and maximum is 4
-  final MyAdShowListener? adShowListener; // listeners for adds
+  ///publisher token variable set the token which provided through publisher website
+  final String? publishertoken;
+
+  ///select desired no of pencils to show minimum is 1 and maximum is 4
+  final int? pencilsize;
+
+  /// listeners for adds
+  final MyAdShowListener? adShowListener;
 
   WhistleFeed({this.publishertoken, this.pencilsize, this.adShowListener});
 
   _WhistleFeedState createState() => _WhistleFeedState(
+      //passing the paramerters like publihsertoken pencilsize to child class
       this.publishertoken,
       this.pencilsize,
-      this.adShowListener); //passing the paramerters to child class
+      this.adShowListener);
 }
 
 class _WhistleFeedState extends State<WhistleFeed> {
-  String? ptoken = ""; //publisher token
-  int? pensize; // pencil size
-  String pkgname = ""; //package name
-  MyAdShowListener? adShowListener; // listeners for Adds
+  ///publisher token
+  String? ptoken = "";
+
+  /// pencil size
+  int? pensize;
+
+  ///package name
+  String pkgname = "";
+
+  /// listeners for Adds
+  MyAdShowListener? adShowListener;
+
+  ///accessing the parameters from parent class
   _WhistleFeedState(this.ptoken, this.pensize, this.adShowListener);
-  bool shrinkadds = true; // boolean value to shrink adds
-  late WhistleFeedModel whistleFeedModel; //data of objects of adds list
+
+  /// boolean value to shrink adds
+  bool shrinkadds = true;
+
+  ///data of objects of adds list
+  late WhistleFeedModel whistleFeedModel;
 
   @override
   void initState() {
     setState(() {
-      getPackage(); //Api calling
+      ///Api calling
+      getPackage();
     });
     super.initState();
   }
 
   Future<void> getadds(
       String? pubtoken, int? size, String platform, String packagename) async {
-    // api headers
+    /// api headers
     var headers = {
       'Content-Type': 'text/plain',
       'Cookie': 'ci_session=ept5brqr1v9smenbgkptqu19vkggme9m'
     };
-    //api request
+
+    ///api request
     var request = http.Request(
         'POST',
         Uri.parse(
@@ -59,9 +78,10 @@ class _WhistleFeedState extends State<WhistleFeed> {
     http.StreamedResponse streamedResponse = await request.send(); // request
     var response = await http.Response.fromStream(streamedResponse); //response
 
-    //if response status code is 200
     if (streamedResponse.statusCode == 200) {
-      //json decode
+      //if response status code is 200
+
+      ///json decode
       final item = json.decode(response.body);
       print(item);
 
@@ -69,21 +89,24 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
       print(whistleFeedModel.message);
 
-      // if response of messege is verified
       if (whistleFeedModel.message == "verified") {
+        // if response of messege is verified
         print('verified');
-        // if no adds were there
+
         if (whistleFeedModel.data!.campgainlist!.isEmpty) {
-          shrinkadds = true; //shrinking adds if no adds are there.
+          // if no adds were there
+
+          ///shrinking adds if no adds are there.
+          shrinkadds = true;
           adShowListener!.onAdShowFailure('No Adds are There');
         } else {
-          // adds are there
+          /// adds are there
           shrinkadds = false;
           adShowListener!.onAdShowStart('Adds Are Showing'); //lister to
         }
       } else {
-        // if wrong publisher token or empty publisher token
         if (whistleFeedModel.message == 'user not found') {
+          // if wrong publisher token or empty publisher token
           adShowListener!.onAdShowFailure('Add your Publisher Token');
           shrinkadds = true;
           print('Add your Publisher Token');
@@ -105,13 +128,12 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
     setState(() {
       //platform checking is android or ios
-      if (Platform
-          .isAndroid) // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
-      {
+      if (Platform.isAndroid) {
+        // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
         getadds(ptoken, pensize, 'Android', pkgname);
       } else {
-        getadds(ptoken, pensize, 'IOS',
-            pkgname); //if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
+        //if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
+        getadds(ptoken, pensize, 'IOS', pkgname);
       }
     });
   }
@@ -119,7 +141,9 @@ class _WhistleFeedState extends State<WhistleFeed> {
   @override
   Widget build(BuildContext context) {
     return pkgname == ""
-        ? //check package name is empty or not
+        ?
+
+        ///check package name is empty or not
         Container()
         : Container(
             height: pensize == 1
@@ -135,7 +159,9 @@ class _WhistleFeedState extends State<WhistleFeed> {
               initialData: InAppWebViewInitialData(
                   data: """<!DOCTYPE html> <html lang="en"> <body> 
             <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script>
-             </body> </html>"""), //script tags for load the  adds
+             </body> </html>"""),
+
+              ///script tags for load the  adds
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
                   useOnDownloadStart: true,
@@ -150,16 +176,20 @@ class _WhistleFeedState extends State<WhistleFeed> {
               },
               shouldOverrideUrlLoading: (controller, request) async {
                 var url = request.request.url;
-                launchUrl(url!,
-                    mode: LaunchMode
-                        .externalApplication); // navigation of particular Ads When click happens on cubes
+                launchUrl(url!, mode: LaunchMode.externalApplication);
+
+                /// navigation of particular Ads When click happens on cubes
                 return NavigationActionPolicy.CANCEL;
               },
               onLoadError: (controller, url, code, message) {
-                print(message); //load error
+                print(message);
+
+                ///load error
               },
               onLoadHttpError: (controller, url, statusCode, description) {
-                print(statusCode); //load http error
+                print(statusCode);
+
+                ///load http error
               },
             ),
           );

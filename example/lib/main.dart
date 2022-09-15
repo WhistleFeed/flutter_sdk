@@ -11,8 +11,9 @@ class MyApp extends StatefulWidget {
 }
 
 class MyappState extends State<MyApp> {
-  MyAdShowListener adShowListener =
-      MyAdShowListener(); // you can use your event listeners for adds
+  MyAdShowListener adShowListener = MyAdShowListener();
+
+  /// you can use your event listeners for adds
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +25,19 @@ class MyappState extends State<MyApp> {
               height: 100,
             ),
             Container(
-              child:
-                  // Calling whistlefeed widget inside any column row or container
-                  // Passing pencil size and publisher token
-                  // publisher token must be valid get it from the publisher website mentioned in README file.
-                  WhistleFeed(
-                pencilsize: 1, // number of Ad cubes
-                publishertoken:
-                    'YOUR_PUBLISHER_TOKEN', // add your publisher  token here
-                adShowListener: adShowListener, // passing the listeners
+              child: WhistleFeed(
+                // Calling whistlefeed widget inside any column row or container
+                // Passing pencil size and publisher token
+                // publisher token must be valid get it from the publisher website mentioned in README file.
+                pencilsize: 1,
+
+                /// number of Ad cubes
+                publishertoken: 'YOUR_PUBLISHER_TOKEN',
+
+                /// add your publisher  token here
+                adShowListener: adShowListener,
+
+                /// passing the listeners
               ), /////live////
             )
           ],
