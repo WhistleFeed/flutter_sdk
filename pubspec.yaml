@@ -1,6 +1,6 @@
 name: whistle_feed
 description: Whistle Feed Sdk Provides a Developer EASE of Integrating to Whistle feed Adds Into Flutter Applications
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/WhistleFeed/flutter_sdk
 
 environment:

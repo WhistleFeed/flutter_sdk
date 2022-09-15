@@ -22,7 +22,7 @@ class MyappState extends State<MyApp>{
               child:
               WhistleFeed(
                 pencilsize: 1, // number of Ad cubes
-                publishertoken: '116378385233oOAaL_3166',// add your publisher  token here
+                publishertoken: 'YOUR_PUBLISHER_TOKEN',// add your publisher  token here
                 adShowListener: adShowListener, // passing the listeners
               ), /////live////
             )

@@ -1,16 +1,14 @@
 import 'adshow_listener.dart';
 
-class MyAdShowListener implements AdShowListener
-  {
+class MyAdShowListener implements AdShowListener {
   @override
   String onAdShowClick(String messege) {
-   print("On Adds Click");
-   return messege;// click on adds
+    print("On Adds Click");
+    return messege; // click on adds
   }
 
   @override
   String onAdShowComplete(String messege) {
-
     print("On Adds complete");
     return messege; // adds show complete
   }
@@ -27,5 +25,4 @@ class MyAdShowListener implements AdShowListener
     print("On Adds Start");
     return messege; //adds start
   }
-    
-  }
+}

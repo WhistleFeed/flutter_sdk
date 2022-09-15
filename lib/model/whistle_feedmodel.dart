@@ -1,6 +1,6 @@
 class WhistleFeedModel {
-  String? status='';
-  String? message='';
+  String? status = '';
+  String? message = '';
   Data? data;
 
   WhistleFeedModel({this.status, this.message, this.data});
@@ -51,7 +51,7 @@ class Data {
 class Campaindata {
   String? campaignId;
   String? creativeId;
-  String? headline="";
+  String? headline = "";
   String? tracker;
   String? brandname;
   String? uniqueClickId;
@@ -60,14 +60,13 @@ class Campaindata {
 
   Campaindata(
       {this.campaignId,
-        this.creativeId,
-        this.headline,
-        this.tracker,
-        this.brandname,
-        this.uniqueClickId,
-        this.cTA,
-        this.count
-      });
+      this.creativeId,
+      this.headline,
+      this.tracker,
+      this.brandname,
+      this.uniqueClickId,
+      this.cTA,
+      this.count});
 
   Campaindata.fromJson(Map<String, dynamic> json) {
     campaignId = json['campaign_id'];
