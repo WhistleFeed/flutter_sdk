@@ -59,6 +59,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
     http.StreamedResponse streamedResponse = await request.send(); // request
     var response = await http.Response.fromStream(streamedResponse); //response
 
+    //if response status code is 200
     if (streamedResponse.statusCode == 200) {
       //json decode
       final item = json.decode(response.body);
@@ -67,17 +68,21 @@ class _WhistleFeedState extends State<WhistleFeed> {
       whistleFeedModel = WhistleFeedModel.fromJson(item);
 
       print(whistleFeedModel.message);
+
+      // if response of messege is verified
       if (whistleFeedModel.message == "verified") {
-        // everything is verifird
         print('verified');
+        // if no adds were there
         if (whistleFeedModel.data!.campgainlist!.isEmpty) {
           shrinkadds = true; //shrinking adds if no adds are there.
           adShowListener!.onAdShowFailure('No Adds are There');
         } else {
+          // adds are there
           shrinkadds = false;
           adShowListener!.onAdShowStart('Adds Are Showing'); //lister to
         }
       } else {
+        // if wrong publisher token or empty publisher token
         if (whistleFeedModel.message == 'user not found') {
           adShowListener!.onAdShowFailure('Add your Publisher Token');
           shrinkadds = true;
@@ -85,6 +90,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
         }
       }
     } else {
+      // errors
       print(streamedResponse.reasonPhrase);
     }
   }
@@ -98,6 +104,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
     print('printpackagename$pkgname');
 
     setState(() {
+      //platform checking is android or ios
       if (Platform
           .isAndroid) // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
       {
