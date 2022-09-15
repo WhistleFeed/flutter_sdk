@@ -11,12 +11,13 @@ class MyApp extends StatefulWidget {
 }
 
 class MyappState extends State<MyApp> {
+  /// you can use your event listeners for adds
   MyAdShowListener adShowListener = MyAdShowListener();
 
-  /// you can use your event listeners for adds
 
   @override
   Widget build(BuildContext context) {
+    // This widget is the root of your application.
     return MaterialApp(
       home: Scaffold(
         body: Column(
@@ -26,13 +27,14 @@ class MyappState extends State<MyApp> {
             ),
             Container(
               child: WhistleFeed(
-                // Calling whistlefeed widget inside any column row or container
-                // Passing pencil size and publisher token
-                // publisher token must be valid get it from the publisher website mentioned in README file.
+                /// Calling whistlefeed widget inside any column row or container
+                ///
+                /// Passing pencil size and publisher token
+                /// publisher token must be valid get it from the publisher website mentioned in README file.
                 pencilsize: 1,
 
                 /// number of Ad cubes
-                publishertoken: 'YOUR_PUBLISHER_TOKEN',
+                publishertoken: '116378385233oOAaL_3166',
 
                 /// add your publisher  token here
                 adShowListener: adShowListener,

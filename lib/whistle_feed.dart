@@ -21,7 +21,7 @@ class WhistleFeed extends StatefulWidget {
   WhistleFeed({this.publishertoken, this.pencilsize, this.adShowListener});
 
   _WhistleFeedState createState() => _WhistleFeedState(
-      //passing the paramerters like publihsertoken pencilsize to child class
+      ///passing the paramerters like publihsertoken pencilsize to child class
       this.publishertoken,
       this.pencilsize,
       this.adShowListener);
@@ -58,7 +58,9 @@ class _WhistleFeedState extends State<WhistleFeed> {
     super.initState();
   }
 
+  ///function for api calling
   Future<void> getadds(
+
       String? pubtoken, int? size, String platform, String packagename) async {
     /// api headers
     var headers = {
@@ -89,50 +91,70 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
       print(whistleFeedModel.message);
 
+
       if (whistleFeedModel.message == "verified") {
         // if response of messege is verified
-        print('verified');
+
 
         if (whistleFeedModel.data!.campgainlist!.isEmpty) {
           // if no adds were there
+          adShowListener!.onAdShowStart('Verified'); //lister to
 
           ///shrinking adds if no adds are there.
-          shrinkadds = true;
+
+          setState(() {
+            /// to shrink widget
+            shrinkadds = true;
+          });
+
+          ///throwing error messege through listeners if no adds were there
           adShowListener!.onAdShowFailure('No Adds are There');
         } else {
-          /// adds are there
-          shrinkadds = false;
-          adShowListener!.onAdShowStart('Adds Are Showing'); //lister to
+          setState(() {
+            /// to unshrink widget
+            shrinkadds = false;
+          });
+
+          ///throwing messege through listeners if Ads were showing
+          adShowListener!.onAdShowComplete('Ads Are Showing'); //lister to
         }
       } else {
         if (whistleFeedModel.message == 'user not found') {
-          // if wrong publisher token or empty publisher token
+
+          setState((){
+            /// to shrink widget
+            shrinkadds=true;
+          });
+          /// if wrong publisher token or empty publisher token
           adShowListener!.onAdShowFailure('Add your Publisher Token');
-          shrinkadds = true;
           print('Add your Publisher Token');
         }
       }
     } else {
       // errors
       print(streamedResponse.reasonPhrase);
+      setState((){
+        /// to shrink widget
+        shrinkadds=true;
+      });
     }
   }
 
   void getPackage() async {
-    //since sdk relies on the package name to work correctly so thereby using packageinfo package
-    //to fetch the package name of the app using the feeds sdk
+    ///since sdk relies on the package name to work correctly so thereby using packageinfo package
+    ///to fetch the package name of the app using the feeds sdk
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     packageInfo = await PackageInfo.fromPlatform();
     pkgname = packageInfo.packageName;
     print('printpackagename$pkgname');
 
     setState(() {
-      //platform checking is android or ios
+      ///platform checking is android or ios
       if (Platform.isAndroid) {
-        // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
+        /// if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
         getadds(ptoken, pensize, 'Android', pkgname);
       } else {
-        //if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
+        ///if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
         getadds(ptoken, pensize, 'IOS', pkgname);
       }
     });
@@ -142,56 +164,57 @@ class _WhistleFeedState extends State<WhistleFeed> {
   Widget build(BuildContext context) {
     return pkgname == ""
         ?
-
         ///check package name is empty or not
         Container()
-        : Container(
-            height: pensize == 1
-                ? 125
-                : pensize == 2
-                    ? 230
-                    : pensize == 3
-                        ? 330
-                        : pensize == 4
-                            ? 430
-                            : 0,
-            child: InAppWebView(
-              initialData: InAppWebViewInitialData(
-                  data: """<!DOCTYPE html> <html lang="en"> <body> 
+        : shrinkadds==true?Container():Container(
+         ///setting height of container basis of pencil heights
+         height: pensize == 1
+          ? 125
+          : pensize == 2
+          ? 230
+          : pensize == 3
+          ? 330
+          : pensize == 4
+          ? 430
+          : 0,
+      child: InAppWebView(
+        initialData: InAppWebViewInitialData(
+          ///script tags for load the  adds
+            data: """<!DOCTYPE html> <html lang="en"> <body> 
             <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script>
              </body> </html>"""),
 
-              ///script tags for load the  adds
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  useOnDownloadStart: true,
-                  clearCache: true,
-                  javaScriptEnabled: true,
-                  useShouldOverrideUrlLoading: true,
-                  useOnLoadResource: true,
-                ),
-              ),
-              onWebViewCreated: (InAppWebViewController controller) {
-                print("on web created");
-              },
-              shouldOverrideUrlLoading: (controller, request) async {
-                var url = request.request.url;
-                launchUrl(url!, mode: LaunchMode.externalApplication);
 
-                /// navigation of particular Ads When click happens on cubes
-                return NavigationActionPolicy.CANCEL;
-              },
-              onLoadError: (controller, url, code, message) {
-                print(message);
+        initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(
+            useOnDownloadStart: true,
+            clearCache: true,
+            javaScriptEnabled: true,
+            useShouldOverrideUrlLoading: true,
+            useOnLoadResource: true,
+          ),
+        ),
+        onWebViewCreated: (InAppWebViewController controller) {
+          ///web create
+          print("on web created");
+        },
+        shouldOverrideUrlLoading: (controller, request) async {
+          var url = request.request.url;
+          launchUrl(url!, mode: LaunchMode.externalApplication);
+          /// navigation of particular Ads When click happens on cubes
+          return NavigationActionPolicy.CANCEL;
+        },
+        onLoadError: (controller, url, code, message) {
+          print(message);
 
-                ///load error
-              },
-              onLoadHttpError: (controller, url, statusCode, description) {
-                print(statusCode);
+          ///load error
+        },
+        onLoadHttpError: (controller, url, statusCode, description) {
+          print(statusCode);
 
-                ///load http error
-              },
-            ),
-          );
+          ///load http error
+        },
+      ),
+    );
   }
 }
