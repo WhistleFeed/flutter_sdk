@@ -38,7 +38,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
     super.initState();
   }
 
-  Future<void> GetAdds(String? pubtoken, int? size,String platform,String packagename) async {
+  Future<void> getadds(String? pubtoken, int? size,String platform,String packagename) async {
     // api headers
     var headers = {
       'Content-Type': 'text/plain',
@@ -49,7 +49,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
         Uri.parse(
             'https://feed-api.whistle.mobi/Display_ads_api/displayAdsApi'));
     request.body =
-    '''{"os_name":"${platform}","publisher_token":"$pubtoken","api_called":1,"size":$size,"parentUrl":"$pkgname"}''';
+    '''{"os_name":"$platform","publisher_token":"$pubtoken","api_called":1,"size":$size,"parentUrl":"$pkgname"}''';
     request.headers.addAll(headers);
     print('print the request${request.body}');
     http.StreamedResponse streamedResponse = await request.send();
@@ -99,23 +99,18 @@ class _WhistleFeedState extends State<WhistleFeed>{
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     packageInfo = await PackageInfo.fromPlatform();
     pkgname = packageInfo.packageName;
-    print('printpackagename${pkgname}');
+    print('printpackagename$pkgname');
 
-    if(pkgname=="" || pkgname==null)
-      {
-      }
-    else
-      {
-        setState(() {
-          if(Platform.isAndroid) // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
+    setState(() {
+      if(Platform.isAndroid) // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
           {
-            GetAdds(ptoken, pensize,'Android',pkgname);
-          }
-          else{
-            GetAdds(ptoken, pensize,'IOS',pkgname);//if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
-          }
-        });
+        getadds(ptoken, pensize,'Android',pkgname);
       }
+      else{
+        getadds(ptoken, pensize,'IOS',pkgname);//if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
+      }
+    });
+
   }
 
 
@@ -123,14 +118,16 @@ class _WhistleFeedState extends State<WhistleFeed>{
   Widget build(BuildContext context) {
     return pkgname==""? //check package name is empty or not
     Container():
-    shrinkadds==false?Container(
+    Container(
       height: pensize==1?125 //height basis on pencils
           :pensize==2?230
           :pensize==3?330
           :pensize==4?430:0,
       child: InAppWebView(
         initialData: InAppWebViewInitialData(
-            data:"""<!DOCTYPE html> <html lang="en"> <body> <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script> </body> </html>"""),//scripttagsfor adds
+            data:"""<!DOCTYPE html> <html lang="en"> <body> 
+            <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script>
+             </body> </html>"""),//scripttagsfor adds
 
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(
@@ -146,7 +143,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
         },
         shouldOverrideUrlLoading: (controller, request) async {
           var url = request.request.url;
-          launch(url.toString());// navigation of particular Ads When click happens on cubes
+          launchUrl(url!,mode: LaunchMode.externalApplication);// navigation of particular Ads When click happens on cubes
           return NavigationActionPolicy.CANCEL;
         },
         onLoadError: (controller, url, code, message) {
@@ -156,6 +153,6 @@ class _WhistleFeedState extends State<WhistleFeed>{
           print(statusCode);//load http error
         },
       ),
-    ):Container();
+    );
   }
 }

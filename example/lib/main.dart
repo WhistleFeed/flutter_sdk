@@ -4,10 +4,10 @@ import 'package:whistle_feed/WhistleFeed.dart';
 void main() {runApp(MyApp());}
 class MyApp extends StatefulWidget{
 
-  _myappstate createState()=> _myappstate();
+  MyappState createState()=> MyappState();
 
 }
-class _myappstate extends State<MyApp>{
+class MyappState extends State<MyApp>{
 
   MyAdShowListener adShowListener = MyAdShowListener(); // you can use your event listeners for adds
 
@@ -22,7 +22,7 @@ class _myappstate extends State<MyApp>{
               child:
               WhistleFeed(
                 pencilsize: 1, // number of Ad cubes
-                publishertoken: 'YOUR_PUBLISHER_TOKEM',// add your publisher  token here
+                publishertoken: 'YOUR_PUBLISHER_TOKEN',// add your publisher  token here
                 adShowListener: adShowListener, // passing the listeners
               ), /////live////
             )
