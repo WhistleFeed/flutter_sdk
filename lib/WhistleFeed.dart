@@ -22,7 +22,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
 
   String? ptoken=""; //publisher token
   int? pensize; // pencil size
-  String package_name=""; //package name
+  String pkgname=""; //package name
   MyAdShowListener? adShowListener; // listeners for Adds
   _WhistleFeedState(this.ptoken,this.pensize,this.adShowListener);
   bool shrinkadds=true; // boolean value to shrink adds
@@ -38,22 +38,25 @@ class _WhistleFeedState extends State<WhistleFeed>{
     super.initState();
   }
 
-  Future<void> get_whistle_Feed_Adds(String? publisher_token, int? size,String platform,String packagename) async {
+  Future<void> GetAdds(String? pubtoken, int? size,String platform,String packagename) async {
+    // api headers
     var headers = {
       'Content-Type': 'text/plain',
       'Cookie': 'ci_session=ept5brqr1v9smenbgkptqu19vkggme9m'
     };
+    //api request
     var request = http.Request('POST',
         Uri.parse(
             'https://feed-api.whistle.mobi/Display_ads_api/displayAdsApi'));
     request.body =
-    '''{"os_name":"${platform}","publisher_token":"$publisher_token","api_called":1,"size":$size,"parentUrl":"$package_name"}''';
+    '''{"os_name":"${platform}","publisher_token":"$pubtoken","api_called":1,"size":$size,"parentUrl":"$pkgname"}''';
     request.headers.addAll(headers);
     print('print the request${request.body}');
     http.StreamedResponse streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
 
     if (streamedResponse.statusCode == 200) {
+      //json response
       final item = json.decode(response.body);
       print(item);
 
@@ -95,10 +98,10 @@ class _WhistleFeedState extends State<WhistleFeed>{
     //to fetch the package name of the app using the feeds sdk
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     packageInfo = await PackageInfo.fromPlatform();
-    package_name = packageInfo.packageName;
-    print('printpackagename${package_name}');
+    pkgname = packageInfo.packageName;
+    print('printpackagename${pkgname}');
 
-    if(package_name=="" || package_name==null)
+    if(pkgname=="" || pkgname==null)
       {
       }
     else
@@ -106,10 +109,10 @@ class _WhistleFeedState extends State<WhistleFeed>{
         setState(() {
           if(Platform.isAndroid) // if platform calling the whistle feed sdk is based on android will need to pass Android as platform value
           {
-            get_whistle_Feed_Adds(ptoken, pensize,'Android',package_name);
+            GetAdds(ptoken, pensize,'Android',pkgname);
           }
           else{
-            get_whistle_Feed_Adds(ptoken, pensize,'IOS',package_name);//if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
+            GetAdds(ptoken, pensize,'IOS',pkgname);//if platform calling the whistle feed sdk is based on Iphone will need to pass IOS as platform value
           }
         });
       }
@@ -118,7 +121,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
 
   @override
   Widget build(BuildContext context) {
-    return package_name==""? //check package name is empty or not
+    return pkgname==""? //check package name is empty or not
     Container():
     shrinkadds==false?Container(
       height: pensize==1?125 //height basis on pencils
@@ -127,7 +130,7 @@ class _WhistleFeedState extends State<WhistleFeed>{
           :pensize==4?430:0,
       child: InAppWebView(
         initialData: InAppWebViewInitialData(
-            data:"""<!DOCTYPE html> <html lang="en"> <body> <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$package_name"></script> </body> </html>"""),//scripttagsfor adds
+            data:"""<!DOCTYPE html> <html lang="en"> <body> <script src="https://pixel.whistle.mobi/feedAds.js" size="$pensize" token="$ptoken" packagename="$pkgname"></script> </body> </html>"""),//scripttagsfor adds
 
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(

@@ -42,3 +42,7 @@
 ## 0.0.11
 
 - Bug fixes
+
+## 1.0.0
+
+- Bug fixes
