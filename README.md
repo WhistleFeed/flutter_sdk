@@ -26,14 +26,14 @@ yaml dependencies: whistle_feed: latest version
 1) Check if correct publisher token provided,
 2) Passing addslistener as null or object of the class,
 3) Minimum pencil size is 1
-4) Maximum pencil size is 4
+4) Maximum pencil size is 3
 
 # pixelerrors
 Note: If pixel error is encountered kindly check sufficient height is provided which is proportional to pencil sizes.Also one can copy code from the website based on how many pencil ads one wants to show
 
 
 ## for example
-1 pencil = 1 cube , Maximum cube will be 4
+1 pencil = 1 cube , Maximum cube will be 3
 Note :- required fields from developer : publisher token and pencil size (minimum size is 1 and maximum size is 4)
 
 ## case 1 : if you want 1 cube Ui initialization will be
@@ -56,13 +56,6 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 
 
 ![3 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed3pencil.png)
-
-
-## case 4: if you want 4 cubes Ui initialization will be
-#  Whistle_adds( pencil_size: 4,publisher_token: '***publisher_token***'),
-
-
-![4 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed4pencil.png)
 
 # Github repository for reference
 
