@@ -18,7 +18,9 @@ class WhistleFeed extends StatefulWidget {
   WhistleFeed({this.publishertoken, this.pencilsize, this.adShowListener});
 
   _WhistleFeedState createState() => _WhistleFeedState(
-      this.publishertoken, this.pencilsize, this.adShowListener);//passing the paramerters to child class
+      this.publishertoken,
+      this.pencilsize,
+      this.adShowListener); //passing the paramerters to child class
 }
 
 class _WhistleFeedState extends State<WhistleFeed> {
@@ -54,7 +56,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
         '''{"os_name":"$platform","publisher_token":"$pubtoken","api_called":1,"size":$size,"parentUrl":"$pkgname"}''';
     request.headers.addAll(headers);
     print('print the request${request.body}');
-    http.StreamedResponse streamedResponse = await request.send();// request
+    http.StreamedResponse streamedResponse = await request.send(); // request
     var response = await http.Response.fromStream(streamedResponse); //response
 
     if (streamedResponse.statusCode == 200) {
@@ -77,7 +79,6 @@ class _WhistleFeedState extends State<WhistleFeed> {
         }
       } else {
         if (whistleFeedModel.message == 'user not found') {
-
           adShowListener!.onAdShowFailure('Add your Publisher Token');
           shrinkadds = true;
           print('Add your Publisher Token');
