@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whistle_feed/listeners/MyAdShowListener.dart';
-import 'package:whistle_feed/whistle_adds.dart';
+import 'package:whistle_feed/WhistleFeed.dart';
 void main() {runApp(MyApp());}
 class MyApp extends StatefulWidget{
 
@@ -9,7 +9,7 @@ class MyApp extends StatefulWidget{
 }
 class _myappstate extends State<MyApp>{
 
-  MyAdShowListener adShowListener = MyAdShowListener();
+  MyAdShowListener adShowListener = MyAdShowListener(); // you can use your event listeners for adds
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,10 @@ class _myappstate extends State<MyApp>{
             SizedBox(height: 100,),
             Container(
               child:
-              Whistle_adds(
-                pencil_size: 1, // number of Ad cubes
-                publisher_token: 'YOUR_PUBLISHER_TOKEN',
-                adShowListener: adShowListener,
+              WhistleFeed(
+                pencilsize: 1, // number of Ad cubes
+                publishertoken: 'YOUR_PUBLISHER_TOKEM',// add your publisher  token here
+                adShowListener: adShowListener, // passing the listeners
               ), /////live////
             )
           ],

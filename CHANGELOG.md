@@ -23,9 +23,22 @@
 - Bug fixes
 
 ## 0.0.7
+
 - Fixed package name dynamically accessing by the plugin
 
 ## 0.0.8
 
--Migrated from non null safety to sound null safety
--Upgraded the dependent libraries to up to date versions.
+- Migrated from non null safety to sound null safety
+- Upgraded the dependent libraries to up to date versions.
+
+## 0.0.9
+
+- Bug fixes
+
+## 0.0.10
+
+- Bug fixes
+
+## 0.0.11
+
+- Bug fixes
