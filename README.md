@@ -41,7 +41,7 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 #  Whistle_adds( pencil_size: 1,publisher_token: '***publisher_token***'),
 
 
-![1 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed1pencil.png)
+![1 cube adds](https://github.com/WhistleFeed/flutter_sdk/blob/master/screenshots/newadd1.png)
 
 
 ## case 2: if you want 2 cubes Ui initialization will be
@@ -49,13 +49,13 @@ Note :- required fields from developer : publisher token and pencil size (minimu
 #  Whistle_adds( pencil_size: 2,publisher_token: '***publisher_token***'),
 
 
-![2 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed2pencil.png)
+![2 cube adds](https://github.com/WhistleFeed/flutter_sdk/blob/master/screenshots/newadd2.png)
 
 ## case 3: if you want 3 cubes Ui initialization will be
 #  Whistle_adds( pencil_size: 3,publisher_token: '***publisher_token***'),
 
 
-![3 cube adds](https://github.com/prakashvalueleaf/whistle_feed/blob/master/screenshots/whistlefeed3pencil.png)
+![3 cube adds](https://github.com/WhistleFeed/flutter_sdk/blob/master/screenshots/newadd3.png)
 
 # Github repository for reference
 
