@@ -78,3 +78,7 @@
 ## 1.0.8
 
 - Bug fixes
+
+## 1.0.9
+
+- Bug fixes
