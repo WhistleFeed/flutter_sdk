@@ -53,7 +53,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
   var script_tags;
 
   ///set live or staging link
-  bool islink=false;
+  bool islink=true;
 
   ///base url
   String BASE_URL="";
@@ -194,13 +194,18 @@ class _WhistleFeedState extends State<WhistleFeed> {
         }
       else
         {
-          shrinkadds=true;
-          print("failureeee");
-          adShowListener!.onAdShowFailure(item['message']);
+         setState(()
+         {
+             shrinkadds = true;
+             print("failureeee");
+             adShowListener!.onAdShowFailure(item['message']);
+        });
+
         }
       print(item);
     }
     else {
+      shrinkadds = true;
       print(response.reasonPhrase);
     }
   }
@@ -215,7 +220,6 @@ class _WhistleFeedState extends State<WhistleFeed> {
     setState(() {
       ///api calling
       getscripttagsfromapi(ptoken,pensize,pkgname);
-
 /*
       ///platform checking is android or ios
       if (Platform.isAndroid) {
@@ -237,7 +241,9 @@ class _WhistleFeedState extends State<WhistleFeed> {
         Container()
         : shrinkadds == true
             ? Container()
-            : Container(
+            : ptoken==""?
+           Container():
+           Container(
                 ///setting height of container basis of pencil heights
                 height: pensize == 1
                     ? 125
