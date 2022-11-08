@@ -82,3 +82,7 @@
 ## 1.0.9
 
 - Bug fixes
+
+## 1.0.10
+
+- scriptstags from api call 
