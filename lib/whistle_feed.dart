@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:advertising_id/advertising_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:visibility_detector/visibility_detector.dart';
 import 'listeners/myadshow_listener.dart';
 import 'model/whistle_feedmodel.dart';
 
@@ -16,6 +19,8 @@ class WhistleFeed extends StatefulWidget {
 
   /// listeners for adds
   final MyAdShowListener? adShowListener;
+
+
 
   WhistleFeed({this.publishertoken,this.pencilsize,this.adShowListener});
 
@@ -44,7 +49,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
   _WhistleFeedState(this.ptoken, this.pensize, this.adShowListener);
 
   /// boolean value to shrink adds
-  bool shrinkadds = true;
+   bool shrinkadds=false;
 
   ///data of objects of adds list
   late WhistleFeedModel whistleFeedModel;
@@ -64,6 +69,12 @@ class _WhistleFeedState extends State<WhistleFeed> {
   ///live url
   String LIVE_LINK="https://pixel.whistle.mobi/feedAds.php?";
 
+  ///device id
+  String deviceId = "";
+
+  bool iSapiCalled =false;
+
+  int counter=0;
 
   @override
   void initState() {
@@ -174,6 +185,10 @@ class _WhistleFeedState extends State<WhistleFeed> {
   ///method for s2s
   Future<void> getscripttagsfromapi(String? pubtoken, int? size,String packagename) async
   {
+    counter=counter+1;
+    print('checkcounterafterapicalled${counter}');
+    deviceId = (await AdvertisingId.id(true))!;
+    print('printtheurl ${BASE_URL}packagename=${packagename}&size=${size}&apiToken=${pubtoken}&add_id=${deviceId}');
     var request = http.Request('GET', Uri.parse('${BASE_URL}packagename=${packagename}&size=${size}&apiToken=${pubtoken}'));
 
     http.StreamedResponse streamedResponse = await request.send(); // request
@@ -190,6 +205,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
             script_tags=item['data'];
             shrinkadds = false;
             adShowListener!.onAdShowStart(item['message']);
+            iSapiCalled=true;
           });
         }
       else
@@ -199,6 +215,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
              shrinkadds = true;
              print("failureeee");
              adShowListener!.onAdShowFailure(item['message']);
+             iSapiCalled=true;
         });
 
         }
@@ -219,7 +236,7 @@ class _WhistleFeedState extends State<WhistleFeed> {
     print('printpackagename$pkgname');
     setState(() {
       ///api calling
-      getscripttagsfromapi(ptoken,pensize,pkgname);
+      //getscripttagsfromapi(ptoken,pensize,pkgname);
 /*
       ///platform checking is android or ios
       if (Platform.isAndroid) {
@@ -235,59 +252,78 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
   @override
   Widget build(BuildContext context) {
-    return pkgname == ""
-        ?
-        ///check package name is empty or not
-        Container()
-        : shrinkadds == true
-            ? Container()
-            : ptoken==""?
-           Container():
-           Container(
-                ///setting height of container basis of pencil heights
-                height: pensize == 1
-                    ? 125
-                    : pensize == 2
-                        ? 230
-                        : pensize == 3
-                            ? 330
-                            : pensize == 4
-                                ? 430
-                                : 0,
-                child: InAppWebView(
-                  initialData: InAppWebViewInitialData(
-                      ///script tags for load the  adds
-                      data: """${script_tags}"""),
-                    initialOptions: InAppWebViewGroupOptions(
-                    crossPlatform: InAppWebViewOptions(
-                      useOnDownloadStart: true,
-                      clearCache: true,
-                      javaScriptEnabled: true,
-                      useShouldOverrideUrlLoading: true,
-                      useOnLoadResource: true,
-                    ),
-                  ),
-                  onWebViewCreated: (InAppWebViewController controller) {
-                    ///web create
-                    print("on web created");
-                  },
-                  shouldOverrideUrlLoading: (controller, request) async {
-                    var url = request.request.url;
-                    launchUrl(url!, mode: LaunchMode.externalApplication);
+    return shrinkadds==true?Container():VisibilityDetector(
+        key: Key('my-widget-key'),
+        child: Container(
+          ///setting height of container basis of pencil heights
+          height: pensize == 1
+              ? 125
+              : pensize == 2
+              ? 230
+              : pensize == 3
+              ? 330
+              : pensize == 4
+              ? 430
+              : 0,
+          child: iSapiCalled==true?InAppWebView(
+            initialData: InAppWebViewInitialData(
+              ///script tags for load the  adds
+                data: """${script_tags}"""),
+            initialOptions: InAppWebViewGroupOptions(
+              crossPlatform: InAppWebViewOptions(
+                useOnDownloadStart: true,
+                clearCache: true,
+                javaScriptEnabled: true,
+                useShouldOverrideUrlLoading: true,
+                useOnLoadResource: true,
+              ),
+            ),
+            onWebViewCreated: (InAppWebViewController controller) {
+              ///web create
+              print("on web created");
+            },
+            shouldOverrideUrlLoading: (controller, request) async {
+              var url = request.request.url;
+              //  launchUrl(url!, mode: LaunchMode.externalApplication);
+              launch(url.toString());
 
-                    /// navigation of particular Ads When click happens on cubes
-                    return NavigationActionPolicy.CANCEL;
-                  },
-                  onLoadError: (controller, url, code, message) {
-                    print(message);
-                    ///load error
-                  },
-                  onLoadHttpError: (controller, url, statusCode, description) {
-                    print(statusCode);
+              /// navigation of particular Ads When click happens on cubes
+              return NavigationActionPolicy.CANCEL;
+            },
+            onLoadError: (controller, url, code, message) {
+              print(message);
+              ///load error
+            },
+            onLoadHttpError: (controller, url, statusCode, description) {
+              print(statusCode);
 
-                    ///load http error
-                  },
-                ),
-              );
+              ///load http error
+            },
+          ):Container(),
+        ),
+        onVisibilityChanged: (visibilityInfo){
+          var visiblePercentage = visibilityInfo.visibleFraction * 50;
+
+          debugPrint(
+              'Widget ${visibilityInfo.key} is ${visiblePercentage}% visible');
+          if(visiblePercentage!=null&&visiblePercentage==50.0)
+          {
+            setState(() {
+
+              print("printthecountervalue${counter}");
+              if(counter==0)
+              {
+                getscripttagsfromapi(ptoken,pensize,pkgname);
+              }
+
+            });
+
+          }
+          else
+          {
+            print('hdjwgcjxhlkhkhkh');
+          }
+
+        });
   }
 }

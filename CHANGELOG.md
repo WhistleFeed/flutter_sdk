@@ -81,8 +81,16 @@
 
 ## 1.0.9
 
-- Bug fixes
+- Bug fixes0
 
 ## 1.0.10
 
 - scriptstags from api call 
+
+## 1.0.11
+
+- scriptstags from api call 
+
+## 1.0.12
+
+- viewable impressions added from api call 
