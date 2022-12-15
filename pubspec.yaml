@@ -10,12 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  url_launcher:
-  package_info:
-  flutter_inappwebview:
-  http:
-  advertising_id:
-  visibility_detector:
+  url_launcher: ^6.1.7
+  package_info_plus: ^3.0.2
+  flutter_inappwebview: ^5.7.2+2
+  http: ^0.13.5
+  advertising_id: ^2.3.0
+  visibility_detector: ^0.3.3
 
 
 dev_dependencies:

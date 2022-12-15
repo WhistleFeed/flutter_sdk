@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:advertising_id/advertising_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:visibility_detector/visibility_detector.dart';
@@ -51,8 +51,6 @@ class _WhistleFeedState extends State<WhistleFeed> {
   /// boolean value to shrink adds
    bool shrinkadds=false;
 
-  ///data of objects of adds list
-  late WhistleFeedModel whistleFeedModel;
 
   ///script tags variable
   var script_tags;
