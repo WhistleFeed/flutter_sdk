@@ -20,29 +20,30 @@ class MyappState extends State<MyApp> {
     // This widget is the root of your application.
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              child: WhistleFeed(
-                /// Calling whistlefeed widget inside any column row or container
-                ///
-                /// Passing pencil size and publisher token
-                /// publisher token must be valid get it from the publisher website mentioned in README file.
-                pencilsize: 1,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
 
-                /// number of Ad cubes
-                publishertoken: '116378385233oOAaL_3166',
+              Container(
+                child: WhistleFeed(
+                  /// Calling whistlefeed widget inside any column row or container
+                  ///
+                  /// Passing pencil size and publisher token
+                  /// publisher token must be valid get it from the publisher website mentioned in README file.
+                  pencilsize: 2,
 
-                /// add your publisher  token here
-                adShowListener: adShowListener,
+                  /// number of Ad cubes
+                  publishertoken: 'YOUR_PUBLISHER_TOKEN',
 
-                /// passing the listeners
-              ), /////live////
-            )
-          ],
+                  /// add your publisher  token here
+                  adShowListener: adShowListener,
+
+                  /// passing the listeners
+                ), /////live////
+              ),
+
+            ],
+          ),
         ),
       ),
     );

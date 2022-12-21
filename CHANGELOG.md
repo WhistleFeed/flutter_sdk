@@ -43,6 +43,10 @@
 
 - Bug fixes
 
+## 0.0.12
+
+- viewable impressions added from api call
+
 ## 1.0.0
 
 - Bug fixes

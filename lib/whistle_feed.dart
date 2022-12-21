@@ -250,14 +250,15 @@ class _WhistleFeedState extends State<WhistleFeed> {
 
   @override
   Widget build(BuildContext context) {
-    return shrinkadds==true?Container():VisibilityDetector(
+    return shrinkadds==true?Container():
+    VisibilityDetector(
         key: Key('my-widget-key'),
         child: Container(
           ///setting height of container basis of pencil heights
           height: pensize == 1
               ? 125
               : pensize == 2
-              ? 230
+              ? 240
               : pensize == 3
               ? 330
               : pensize == 4
